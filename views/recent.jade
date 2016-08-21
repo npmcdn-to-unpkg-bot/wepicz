@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  h1= "Live Gallery"
+  each image in images
+    img(src= image.images.low_resolution.url)
