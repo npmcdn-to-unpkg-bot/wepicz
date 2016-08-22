@@ -12,7 +12,7 @@ var accessToken;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  const clientId = '05c5eda966c8414c84f2d03d93f3dd6f';
+  const clientId = '918b24f616b341f6a17e5b1284fa941e';
   const redirectUrl = 'http://eventpic.ddns.net:3000/validate-instagram-callback';
 
 
@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/validate-instagram-callback', function(req, res, next) {
   const code = req.query.code;
-  const clientId = '05c5eda966c8414c84f2d03d93f3dd6f';
-  const clientSecret = 'a6de9c1c043141a99b9000679ab8409a';
+  const clientId = '918b24f616b341f6a17e5b1284fa941e';
+  const clientSecret = ' ae4e4a5df5064c2f943aac556785b427';
   const redirectUrl = 'http://eventpic.ddns.net:3000/validate-instagram-callback';
 
   request.post(
