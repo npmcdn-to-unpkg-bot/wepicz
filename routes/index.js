@@ -8,7 +8,7 @@ const checkToken = require('./auth');
 
 /* GET home page. */
 router.get('/', checkToken, function(req, res, next) {
-  res.redirect('./recent');
+  res.redirect('/slider');
 });
 
 router.get('/recent', checkToken, function(req, res, next) {
@@ -37,8 +37,26 @@ router.get('/recent', checkToken, function(req, res, next) {
 
 });
 
+router.get('/slider-data', checkToken, function(req, res, next) {
+
+  const url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?access_token=' + instagramConfig.accessToken;
+
+  request.get(
+      url,
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var json = JSON.parse(body);
+            res.json(json.data);
+          } else {
+            res.send(error);
+          }
+      }
+  );
+
+});
+
 router.get('/slider', checkToken, function(req, res, next) {
-  res.render('slider', { accessTokenJade: instagramConfig.accessToken });
+  res.render('slider');
 });
 
 module.exports = router;
