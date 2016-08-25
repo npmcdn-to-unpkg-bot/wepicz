@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var instagram = require('./routes/instagram')
+var instagram = require('./routes/instagram');
+var dashboard = require('./routes/dashboard');
 
 var socialConfigs = require('./config/social-configs');
 
@@ -25,11 +26,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use('/', routes);
 app.use('/users', users);
 app.use('/instagram', instagram);
+app.use('/dashboard', dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
