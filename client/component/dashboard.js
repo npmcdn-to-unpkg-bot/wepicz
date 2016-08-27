@@ -28,6 +28,11 @@ class Dashboard extends Component {
         </Navbar.Collapse>
       </Navbar>
 
+      <div className="container">
+        <h1>Dashboard</h1>
+      </div>
+
+
       <Grid>
         <Row className="show-grid">
           <Col xs={12} md={8}><code>&lt;{'Col xs={12} md={8}'} /&gt;</code></Col>
@@ -52,7 +57,7 @@ class Dashboard extends Component {
 
       <div>
         {this.props.children}
-      </div>      
+      </div>
       </div>
     )
   }
