@@ -4,9 +4,6 @@ var request = require('request');
 
 const instagramConfig = require('../config/social-configs').instagram;
 
-const checkToken = require('./auth');
-
-
 /* GET home page. */
 router.get('/authorize', function(req, res, next) {
   const url = `${instagramConfig.authorizeUrl}?` +
@@ -39,7 +36,7 @@ router.get('/authorize-callback', function(req, res, next) {
 
               instagramConfig.accessToken = info.access_token;
 
-              res.redirect('/slider');
+              res.redirect('/dashboard');
           } else {
             res.send(error);
           }

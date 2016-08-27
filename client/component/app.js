@@ -1,14 +1,13 @@
 import React from 'react'
 
-const Dashboard = React.createClass({
+const App = React.createClass({
   render() {
     return (
       <div>
-        Dashboard
+        {this.props.children}
       </div>
-
     )
   }
 })
 
-export default Dashboard;
+export default App;

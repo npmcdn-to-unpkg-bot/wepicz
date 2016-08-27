@@ -1,3 +1,15 @@
+// var socialConfigs = require('../config/social-configs');
+//
+// const checkToken = function (req, res, next) {
+//   if (socialConfigs.instagram.accessToken) {
+//     next();
+//   } else {
+//     res.redirect('/instagram/authorize');
+//   }
+// };
+//
+// module.exports = checkToken;
+
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -8,7 +20,7 @@ const checkToken = require('./auth');
 
 /* GET home page. */
 router.get('/', checkToken, function(req, res, next) {
-  res.redirect('/slider');
+  res.redirect('/dashboard');
 });
 
 router.get('/recent', checkToken, function(req, res, next) {

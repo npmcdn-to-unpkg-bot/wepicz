@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 
 var sequelize = new Sequelize('eventpic', 'eventpic', '3v3ntp1c', {
-  host: 'www.si-webs.com.ar',
+  host: '104.131.72.155',//'eventpic.ddns.net',
   dialect: 'mysql',
 
   pool: {

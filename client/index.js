@@ -1,21 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, Link, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 
-import Login from './login';
-import Dashboard from './dashboard';
+import App from './component/app';
+import Login from './component/login';
+import Dashboard from './component/dashboard';
 
-
-const App = React.createClass({
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-
-    )
-  }
-})
+import loginService from './service/login';
 
 const NoMatch = React.createClass({
   render() {
@@ -31,12 +22,7 @@ const Users = React.createClass({
       <div>
         <h1>Users</h1>
         <div className="master">
-          <ul>
-            {/* use Link to route around the app */}
-            {this.state.users.map(user => (
-              <li key={user.id}><Link to={`/user/${user.id}`}>{user.name}</Link></li>
-            ))}
-          </ul>
+
         </div>
         <div className="detail">
           {this.props.children}
@@ -64,17 +50,30 @@ const User = React.createClass({
   }
 })
 
+function requireAuth(nextState, replace) {
+  if (!loginService.loggedIn()) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}
+
 // Declarative route configuration (could also load this config lazily
 // instead, all you really need is a single root route, you don't need to
 // colocate the entire config).
 render((
   <Router history={hashHistory}>
-    <Route path="/" component={App}>
-      <Route path="login" component={Login}/>
-      <Route path="dashboard" component={Dashboard}/>
-      <Route path="users" component={Users}>
-        <Route path="/user/:userId" component={User}/>
+    <Route component={App}>
+      <Route path="/" component={Dashboard} onEnter={requireAuth}>
+        <Route path="users" component={Users}>
+          <Route path="/user/:userId" component={User}/>
+        </Route>
       </Route>
+
+
+      <Route path="login" component={Login}/>
+
       <Route path="*" component={NoMatch}/>
     </Route>
   </Router>

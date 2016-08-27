@@ -11,7 +11,7 @@ function img_create(src, alt, title) {
     return img;
 }
 
-axios.get('/slider-data')
+axios.get('/slider/slider-data')
   .then(function (response) {
     console.log(response);
 

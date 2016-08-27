@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
-import axios from 'axios';
+
+import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
+
+
+import loginService from '../service/login';
 
 function FieldGroup({ id, label, help, ...props }) {
   return (
@@ -13,35 +17,34 @@ function FieldGroup({ id, label, help, ...props }) {
 }
 
 const Login = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   handleTextChange(e) {
-    //this.setState({text: e.target.value});
-    console.log(e.target.id);
-    console.log(e.target.value);
-
+    this.setState({
+      [e.target.id]: e.target.value
+    });
   },
 
   handleSubmit(e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      axios.post('/login', {
-          firstName: 'Fred',
-          lastName: 'Flintstone'
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      // var author = this.state.author.trim();
-      // var text = this.state.text.trim();
-      // if (!text || !author) {
-      //   return;
-      // }
-      // // TODO: send request to the server
-      // this.setState({author: '', text: ''});
-      console.log('form-submit');
+    loginService.login(
+      this.state.email,
+      this.state.password
+    ).then((data)=>{
+      let dest = "/"
+
+      if (this.props.location.state && this.props.location.state.nextPathname) {
+        dest = this.props.location.state.nextPathname;
+      }
+
+      this.context.router.replace(dest)
+
+    }, (error)=> {
+      console.log(error);
+    })
   },
 
   render() {
@@ -49,10 +52,10 @@ const Login = React.createClass({
       <div>
         <form onSubmit={this.handleSubmit}>
           <FieldGroup
-            id="username"
+            id="email"
             type="text"
-            label="Username"
-            placeholder="Enter username"
+            label="E-Mail"
+            placeholder="Enter E-Mail"
             onChange={this.handleTextChange}
           />
 
@@ -61,6 +64,7 @@ const Login = React.createClass({
             type="password"
             label="Password"
             placeholder="Enter password"
+            onChange={this.handleTextChange}
           />
 
           <Button type="submit">
