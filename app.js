@@ -43,11 +43,13 @@ var dashboard = require('./routes/dashboard');
 var instagram = require('./routes/instagram');
 var slider = require('./routes/slider');
 var user = require('./routes/user');
+var landing = require('./routes/landing');
 
-app.use('/', dashboard);
+app.use('/app', dashboard);
 app.use('/instagram', instagram);
 app.use('/slider', slider);
 app.use('/user', user);
+app.use('/', landing);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
