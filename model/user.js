@@ -1,6 +1,8 @@
 var Sequelize = require('sequelize');
 var db = require('../config/db');
 
+var Event = require('./event');
+
 var User = db.define('user', {
   username: {
     type: Sequelize.STRING
@@ -13,13 +15,16 @@ var User = db.define('user', {
   },
   instagramToken: {
     type: Sequelize.STRING
-  }
+  },
+
 });
 
-User.findByToken = function(token) {
+User.hasMany(Event, {as: 'Events'})
+
+User.findByEmail = function(email) {
   return User.findOne({
     where: {
-      email: token.split('|')[0]
+      email: email
     }
   });
 }

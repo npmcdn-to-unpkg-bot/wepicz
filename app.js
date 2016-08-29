@@ -9,6 +9,8 @@ var UserModel = require('./model/user');
 var passport = require('passport');
 var Strategy = require('passport-http-bearer').Strategy;
 
+var jwt = require('jsonwebtoken');
+
 // Configure the Bearer strategy for use by Passport.
 //
 // The Bearer strategy requires a `verify` function which receives the
@@ -17,11 +19,17 @@ var Strategy = require('passport-http-bearer').Strategy;
 // after authentication.
 passport.use(new Strategy(
   function(token, cb) {
-    UserModel.findByToken(token, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      return cb(null, user);
+
+    jwt.verify(token, 'eventpic', function(err, decoded) {
+
+      if(err) {
+        return cb(err);
+      } else {
+        cb(null, decoded)
+      }
+
     });
+
   }));
 ///////////////////////
 
@@ -43,12 +51,14 @@ var dashboard = require('./routes/dashboard');
 var instagram = require('./routes/instagram');
 var slider = require('./routes/slider');
 var user = require('./routes/user');
+var event = require('./routes/event');
 var landing = require('./routes/landing');
 
 app.use('/app', dashboard);
 app.use('/instagram', instagram);
 app.use('/slider', slider);
 app.use('/user', user);
+app.use('/event', passport.authenticate('bearer', { session: false }), event);
 app.use('/', landing);
 
 // catch 404 and forward to error handler

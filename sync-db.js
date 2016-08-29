@@ -1,3 +1,6 @@
 var User = require('./model/user');
+var Event = require('./model/event');
 
-User.sync();
+var db = require('./config/db');
+
+db.sync({force: true});

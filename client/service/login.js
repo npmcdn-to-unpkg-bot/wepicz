@@ -1,4 +1,6 @@
 import axios from 'axios';
+import interceptor from './interceptor';
+//import event from './event';
 
 const service = {
 

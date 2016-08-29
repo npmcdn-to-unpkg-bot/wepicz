@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid, Row, Col} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
+import eventService  from '../service/event';
+
 class Dashboard extends Component {
+
+  componentDidMount() {
+    eventService.getEvents();
+  }
 
   render() {
     return (
