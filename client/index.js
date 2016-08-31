@@ -6,6 +6,9 @@ import App from './component/app';
 import Login from './component/login';
 import Dashboard from './component/dashboard';
 
+import EventList from './component/eventList';
+import EventEdit from './component/EventEdit';
+
 import loginService from './service/login';
 
 const NoMatch = React.createClass({
@@ -69,8 +72,10 @@ render((
         <Route path="users" component={Users}>
           <Route path="/user/:userId" component={User}/>
         </Route>
+        <Route path="/events" component={EventList}/>
+        <Route path="/event" component={EventEdit}/>
+        <Route path="/event/:eventId" component={EventEdit}/>
       </Route>
-
 
       <Route path="login" component={Login}/>
 
