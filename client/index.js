@@ -7,7 +7,7 @@ import Login from './component/login';
 import Dashboard from './component/dashboard';
 
 import EventList from './component/eventList';
-import EventEdit from './component/EventEdit';
+import EventEdit from './component/eventEdit';
 
 import loginService from './service/login';
 
