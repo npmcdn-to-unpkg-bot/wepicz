@@ -34,10 +34,6 @@ class Dashboard extends Component {
       </Navbar>
 
       <div className="container">
-        <h1>Dashboard</h1>
-      </div>
-
-      <div className="container">
         {this.props.children}
       </div>
       </div>

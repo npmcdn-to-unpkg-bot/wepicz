@@ -20,6 +20,9 @@ var Event = db.define('event', {
   longitude: {
     type: Sequelize.FLOAT
   },
+  distance: {
+    type: Sequelize.FLOAT
+  },
   country: {
     type: Sequelize.STRING
   },
@@ -27,6 +30,12 @@ var Event = db.define('event', {
     type: Sequelize.STRING
   },
   city: {
+    type: Sequelize.STRING
+  },
+  layouts: {
+    type: Sequelize.STRING
+  },
+  transitions: {
     type: Sequelize.STRING
   },
   instagramToken: {

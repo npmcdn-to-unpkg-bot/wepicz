@@ -36,7 +36,7 @@ router.get('/authorize-callback', function(req, res, next) {
 
               instagramConfig.accessToken = info.access_token;
 
-              res.redirect('/dashboard');
+              res.redirect('/slider');
           } else {
             res.send(error);
           }

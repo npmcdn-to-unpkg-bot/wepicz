@@ -13,7 +13,7 @@ const checkToken = function (req, res, next) {
 };
 
 /* GET home page. */
-router.get('/', checkToken, function(req, res, next) {
+router.get('/:id', checkToken, function(req, res, next) {
   res.render('slider');
 });
 
@@ -43,7 +43,7 @@ router.get('/recent', checkToken, function(req, res, next) {
 
 });
 
-router.get('/slider-data', checkToken, function(req, res, next) {
+router.get('/slider-data/:id', checkToken, function(req, res, next) {
 
   const url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?access_token=' + instagramConfig.accessToken;
 
