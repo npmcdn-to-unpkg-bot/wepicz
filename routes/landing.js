@@ -28,4 +28,12 @@ router.get('/:page', function(req, res, next) {
 
 });
 
+router.post('/subscribe', function(req, res) {
+
+  res.json({
+    result: 'ok'
+  });
+
+});
+
 module.exports = router;
