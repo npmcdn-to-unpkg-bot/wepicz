@@ -70,7 +70,7 @@ jQuery(document).ready(function() {
 	    var postdata = $('.subscribe form').serialize();
 	    $.ajax({
 	        type: 'POST',
-	        url: 'assets/subscribe.php',
+	        url: '/subscribe',
 	        data: postdata,
 	        dataType: 'json',
 	        success: function(json) {
