@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
+var validator = require('validator');
 
 router.get('/', function(req, res) {
 
@@ -11,16 +12,37 @@ router.get('/', function(req, res) {
 
 router.post('/subscribe', function(req, res) {
 
-  res.json({
-    valid: 1,
-    message: 'Thanks for subscribing'
-  });
+  const email = req.body.email
+
+  if (validator.isEmail(email)) {
+
+    fs.appendFile('./subscribers.txt', email + '\n', function (err) {
+
+      if (!err) {
+        res.json({
+          valid: 1,
+          message: 'Thanks for your subscription!'
+        });
+      } else {
+        res.json({
+          valid: 0,
+          message: 'An error occurred, please try later'
+        });
+      }
+
+    });
+
+  } else {
+    res.json({
+      valid: 0,
+      message: 'Insert a valid email address!'
+    });
+  }
 
 });
 
 router.get('/:page', function(req, res, next) {
 
-  //res.sendFile('../public/landing/index.htm');
   const filePath = path.join(__dirname, '../public/landing/' + req.params.page + '.htm');
 
   fs.stat(filePath, (err, stats) => {
@@ -33,14 +55,6 @@ router.get('/:page', function(req, res, next) {
       next();
     }
 
-  });
-
-});
-
-router.post('/subscribe', function(req, res) {
-
-  res.json({
-    result: 'ok'
   });
 
 });
