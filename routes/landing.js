@@ -9,6 +9,15 @@ router.get('/', function(req, res) {
 
 });
 
+router.post('/subscribe', function(req, res) {
+
+  res.json({
+    valid: 1,
+    message: 'Thanks for subscribing'
+  });
+
+});
+
 router.get('/:page', function(req, res, next) {
 
   //res.sendFile('../public/landing/index.htm');
