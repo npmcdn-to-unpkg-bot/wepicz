@@ -13,8 +13,12 @@ const checkToken = function (req, res, next) {
 };
 
 /* GET home page. */
+// router.get('/', checkToken, function(req, res, next) {
+//   res.render('slider');
+// });
+
 router.get('/', checkToken, function(req, res, next) {
-  res.render('slider');
+  res.render('player');
 });
 
 router.get('/recent', checkToken, function(req, res, next) {

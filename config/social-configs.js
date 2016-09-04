@@ -7,7 +7,8 @@ const socialConfigs = {
     path: {
       authorize: '/instagram/authorize',
       authorizeCallback: '/instagram/authorize-callback'
-    }
+    },
+    accessToken: '32555735.918b24f.f1b42c28394042d19e9d563ba31275c3'
   }
 }
 
