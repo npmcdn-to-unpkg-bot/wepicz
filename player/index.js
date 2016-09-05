@@ -44,7 +44,7 @@ const Player = React.createClass({
 
   getInitialState() {
     return {
-      layouts: [layouts.full, layouts.two],
+      layouts: [layouts.full, layouts.two, layouts.four],
       imgs: []
     }
   },
@@ -104,15 +104,6 @@ const Player = React.createClass({
       <div style={{
         height: '100%'
       }}>
-        <img
-          src={'/assets/img/logo@2x.png'}
-          style={{
-            zIndex: 5000,
-            position: 'absolute',
-            top: '10px',
-            left: '10px'
-          }}
-        />
 
         { this.getImages() }
         <div style={{
@@ -124,7 +115,15 @@ const Player = React.createClass({
           backgroundColor: 'black',
           opacity: 0.3
         }}>
-
+          <img
+            src={'/assets/img/logo@2x.png'}
+            style={{
+              zIndex: 5000,
+              position: 'absolute',
+              top: '10px',
+              left: '10px'
+            }}
+          />
         </div>
       </div>
     )
