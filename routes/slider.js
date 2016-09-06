@@ -49,7 +49,7 @@ router.get('/recent', checkToken, function(req, res, next) {
 
 router.get('/slider-data', checkToken, function(req, res, next) {
 
-  const url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?access_token=' + instagramConfig.accessToken;
+  const url = 'https://api.instagram.com/v1/tags/wepicz/media/recent?access_token=' + instagramConfig.accessToken;
 
   request.get(
       url,
