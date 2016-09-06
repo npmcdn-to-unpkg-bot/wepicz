@@ -5,7 +5,7 @@ import axios from 'axios'
 import FullTheme from './theme/full';
 import GridTheme from './theme/grid';
 
-import {TransitionMotion, spring} from 'react-motion'
+import {Motion, spring} from 'react-motion'
 
 let layoutIndex = 0;
 let imageIndex = 0;
@@ -175,35 +175,57 @@ const Player = React.createClass({
 const Demo = React.createClass({
   getInitialState() {
     return {
-      items: [{key: 'a', size: 10}, {key: 'b', size: 20}, {key: 'c', size: 30}],
+      big: false
     };
   },
-  componentDidMount() {
+  getInitialStyle() {
+    return {
+      height: 50,
+      width: 50,
+      angle: -10,
+      opacity: 0
+    }
+  },
+  getFinalStyle() {
+    return {
+      height: spring(100, {stiffness: 20, damping: 14}),
+      width: spring(100, {stiffness: 20, damping: 14}),
+      angle: spring(0, {stiffness: 20, damping: 14}),
+      opacity: spring(1, {stiffness: 20, damping: 14})
+    }
+  },
+  onClickHandler() {
     this.setState({
-      items: [{key: 'a', size: 10}, {key: 'b', size: 20}], // remove c.
-    });
+      big: !this.state.big
+    })
   },
-  willLeave() {
-    // triggered when c's gone. Keeping c until its width/height reach 0.
-    return {width: spring(0), height: spring(0)};
-  },
+
   render() {
+
+    const defaultStyle = this.getInitialStyle()
+    const style = this.getFinalStyle();
+
     return (
-      <TransitionMotion
-        willLeave={this.willLeave}
-        styles={this.state.items.map(item => ({
-          key: item.key,
-          style: {width: item.size, height: item.size},
-        }))}>
-        {interpolatedStyles =>
-          // first render: a, b, c. Second: still a, b, c! Only last one's a, b.
-          <div>
-            {interpolatedStyles.map(config => {
-              return <div key={config.key} style={{...config.style, border: '1px solid'}} />
-            })}
-          </div>
-        }
-      </TransitionMotion>
+        <Motion defaultStyle={defaultStyle} style={style} onRest={()=>{console.log('rest');}} key="cuadrado">
+  					{({width, height, angle, opacity}) =>
+  						<div
+                onClick={this.onClickHandler}
+  							style={{
+                  marginRight: 'auto',
+                  marginLeft: 'auto',
+                  position: 'relative',
+                  top: '50%',
+  								width: width + '%',
+  								height: height + '%',
+                  backgroundColor: 'red',
+                  transform: 'translateY(-50%) rotate(' + angle + 'deg)',
+                  opacity: opacity
+  							}}
+              >
+                TEST
+              </div>
+  					}
+    		</Motion>
     );
   },
 });
