@@ -82,10 +82,12 @@ const Frame = React.createClass({
                   marginRight: 'auto',
                   marginLeft: 'auto',
                   position: 'absolute',
-                  top: '50%',
-                  width: width + '%',
-                  height: height + '%',
-                  transform: 'translateY(-50%) rotate(' + angle + 'deg)',
+                  top: '0%',
+                  //width: width + '%',
+                  //height: height + '%',
+                  width: '100%',
+                  height: '100%',
+                  //transform: 'translateY(-50%) rotate(' + angle + 'deg)',
                   opacity: opacity,
                   zIndex: 10000
                 }}
