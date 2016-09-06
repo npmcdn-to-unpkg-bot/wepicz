@@ -3,36 +3,50 @@ import { render } from 'react-dom'
 
 const BotoomBar = React.createClass({
 
-  componentDidMount(){
-    //console.log(this.refs.container.getBoundingClientRect());
+  getInitialState(){
+    return {
+      image: null
+    }
   },
 
   render() {
+    const {playerSize, image} = this.props;
+
+    if (!image) {
+      return null;
+    }
+
+    const caption = image.caption.text;
+
+    const {full_name, profile_picture} = image.user;
+
+    const barHeight = playerSize.height * 0.1;
+
     return (
-      <div style={{
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        width: '100%',
-        height: '10%'
-      }}>
-        <div style={{
-          position: 'absolute',
-          bottom: '0',
-          left: '0',
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'black',
-          opacity: 0.5
-        }}>
-        </div>
+      <div className="bottomBar">
         <img
           src={'/assets/img/logo@2x.png'}
-          style={{
-            position: 'absolute',
-            zIndex: 5000,
-          }}
+          className="bottomServiceLogo"
         />
+        <span className="bottomBarHashtag" >#WePicz</span>
+        <div className="bottomBarBackground"/>
+
+        <div className="bottomBarImageCaption">
+          "{caption}"
+        </div>
+
+        <div
+          className="bottomBarUserName">
+          {full_name}
+        </div>
+
+        <img
+          className="bottomBarSocialNetworkIcon"
+          src="http://instagramstatic-a.akamaihd.net/h1/images/ico/favicon-192.png/b407fa101800.png" />
+
+        <img
+          className="bottomBarUserImage"
+          src={profile_picture} />
       </div>
     )
   }
