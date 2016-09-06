@@ -15,8 +15,16 @@ const themeConfig = {
 
 const ThemeFull = React.createClass({
 
-  componentDidMount(){
-    //console.log(this.refs.container.getBoundingClientRect());
+  getInitialState() {
+    return {
+      currentImage: null
+    }
+  },
+
+  updateCurrentImage(image) {
+    this.setState({
+      currentImage: image
+    });
   },
 
   render() {
@@ -24,8 +32,10 @@ const ThemeFull = React.createClass({
       <div>
         <Frame
           frameMeasures={themeConfig.frames[0]}
-          requestImage={this.props.requestImage}/>
-        <BottomBar playerSize={this.props.size} />
+          requestImage={this.props.requestImage}
+          updateCurrentImage={this.updateCurrentImage}/>
+
+        <BottomBar image={this.state.currentImage}  playerSize={this.props.playerSize} />
       </div>
     )
   }

@@ -30,11 +30,11 @@ const Player = React.createClass({
         .then(function (response) {
 
           if (response && response.data && response.data.length) {
-            const imgs = response.data.map((post) => {
-              return post.images.standard_resolution.url
-            })
+            // const imgs = response.data.map((post) => {
+            //   return post.images.standard_resolution.url
+            // })
 
-            resolve(imgs);
+            resolve(response.data);
 
           } else {
             console.log('No images');
@@ -51,22 +51,20 @@ const Player = React.createClass({
     return promise;
   },
 
-  preloadImage (src) {
+  preloadImage (image) {
 
     const promise = new Promise(function(resolve, reject) {
 
       var img = new Image();
 
-      img.src= src;
+      img.src= image.images.standard_resolution.url;
 
       function loaded() {
-        console.log('loaded', img.src);
-        resolve(src);
+        resolve(image);
       }
 
       function failed() {
-        console.log('failed', img.src);
-        reject(src);
+        reject(image);
       }
 
       if (img.complete) {
@@ -102,6 +100,7 @@ const Player = React.createClass({
             imgs: [...this.state.imgs, okSrc]
           });
         })
+
       });
 
       setInterval(() => {
@@ -141,8 +140,6 @@ const Player = React.createClass({
   getTheme() {
     let theme;
 
-    console.log(getParameterByName('theme'));
-
     if (getParameterByName('theme') == 1){
       theme = (
         <GridTheme
@@ -180,18 +177,18 @@ const Demo = React.createClass({
   },
   getInitialStyle() {
     return {
-      height: 50,
-      width: 50,
-      angle: -10,
+      height: 100,
+      width: 100,
+      angle: 0,
       opacity: 0
     }
   },
   getFinalStyle() {
     return {
-      height: spring(100, {stiffness: 20, damping: 14}),
-      width: spring(100, {stiffness: 20, damping: 14}),
-      angle: spring(0, {stiffness: 20, damping: 14}),
-      opacity: spring(1, {stiffness: 20, damping: 14})
+      height: spring(100, {stiffness: 10, damping: 14}),
+      width: spring(100, {stiffness: 10, damping: 14}),
+      angle: spring(180, {stiffness: 10, damping: 14}),
+      opacity: spring(1, {stiffness: 10, damping: 14})
     }
   },
   onClickHandler() {
@@ -208,21 +205,40 @@ const Demo = React.createClass({
     return (
         <Motion defaultStyle={defaultStyle} style={style} onRest={()=>{console.log('rest');}} key="cuadrado">
   					{({width, height, angle, opacity}) =>
+            <div>
   						<div
-                onClick={this.onClickHandler}
   							style={{
                   marginRight: 'auto',
                   marginLeft: 'auto',
-                  position: 'relative',
-                  top: '50%',
+                  position: 'absolute',
+                  //top: '50%',
   								width: width + '%',
   								height: height + '%',
                   backgroundColor: 'red',
-                  transform: 'translateY(-50%) rotate(' + angle + 'deg)',
+                  //transform: 'translateY(-50%) rotate(' + angle + 'deg)',
+                  transform: 'translateY(-50%) rotateY(' + angle + 'deg)',
                   opacity: opacity
   							}}
               >
-                TEST
+                Front
+              </div>
+
+              <div
+  							style={{
+                  marginRight: 'auto',
+                  marginLeft: 'auto',
+                  position: 'absolute',
+                  //top: '50%',
+  								width: width + '%',
+  								height: height + '%',
+                  backgroundColor: 'blue',
+                  //transform: 'translateY(-50%) rotate(' + angle + 'deg)',
+                  transform: 'translateY(-50%) rotateY(' + angle + 180 + 'deg)',
+                  opacity: opacity
+  							}}
+              >
+                Back
+              </div>
               </div>
   					}
     		</Motion>

@@ -7,23 +7,40 @@ import {Motion, spring} from 'react-motion'
 const Frame = React.createClass({
 
   getInitialState() {
+
     return {
       motion: false,
-      image: this.props.requestImage(),
+      image: '',
       motionImage: ''
     }
+
   },
 
   updateImage() {
+
+    console.log('updateImage');
+
+    const image = this.state.motionImage;
+
+    this.props.updateCurrentImage(image);
+
     this.setState({
       motion: false,
-      image: this.state.motionImage,
+      image: image,
       motionImage: this.props.requestImage()
     })
   },
 
   componentDidMount(){
     const self = this;
+
+    const image = this.props.requestImage();
+
+    this.props.updateCurrentImage(image);
+
+    this.setState({
+      image: image,
+    });
 
     setTimeout(() => {
       this.setState({
@@ -93,7 +110,7 @@ const Frame = React.createClass({
                 }}
               >
                 <img
-                 src={this.state.motionImage}
+                 src={this.state.motionImage.images.standard_resolution.url}
                  style={{
                    display: 'block',
                    height: '100%',
@@ -116,7 +133,7 @@ const Frame = React.createClass({
     )
   },
 
-  render() {
+  renderImage() {
     return (
       <div
         ref="container"
@@ -132,7 +149,7 @@ const Frame = React.createClass({
           className="playerBackground"
           style={{
             display: 'block',
-            backgroundImage: 'url(' + this.state.image + ')',
+            backgroundImage: 'url(' + this.state.image.images.standard_resolution.url + ')',
             top: 0,
             left: 0,
             width: '100%',
@@ -145,7 +162,7 @@ const Frame = React.createClass({
         { this.getMotion() }
 
         <img
-         src={this.state.image}
+         src={this.state.image.images.standard_resolution.url}
          style={{
            display: 'block',
            height: '100%',
@@ -158,6 +175,12 @@ const Frame = React.createClass({
         />
 
       </div>
+    )
+  },
+
+  render() {
+    return (
+      this.state.image ? this.renderImage() : null
     )
   }
 });
