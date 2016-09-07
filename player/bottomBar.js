@@ -18,9 +18,7 @@ const BotoomBar = React.createClass({
 
     const caption = image.caption.text;
 
-    const {full_name, profile_picture} = image.user;
-
-    const barHeight = playerSize.height * 0.1;
+    const {username, full_name, profile_picture} = image.user;
 
     return (
       <div className="bottomBar">
@@ -37,7 +35,7 @@ const BotoomBar = React.createClass({
 
         <div
           className="bottomBarUserName">
-          {full_name}
+          {full_name ? full_name : username}
         </div>
 
         <img

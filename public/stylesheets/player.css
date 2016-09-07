@@ -12,39 +12,54 @@ body {
   background-color: black;
 }
 
-.playerBackground {
+.playerFrame {
   position: absolute;
+}
 
-  -webkit-filter: blur(15px);
-  -moz-filter: blur(15px);
-  -o-filter: blur(15px);
-  -ms-filter: blur(15px);
-  filter: blur(15px);
-
+.playerMotion {
+  position: absolute;
   width: 100%;
   height: 100%;
-
-  background-size: cover;
+  z-index: 5000;
 }
 
 .playerImage {
-  position: absolute;
-}
+  display: block;
+  position: relative;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  top: 50%;
+  transform: translateY(-50%);
 
-.playerImage img{
-  position: absolute;
-  background-size: 100% auto;
   max-width: 100%;
   max-height: 100%;
 }
 
+.playerBackground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: blur(10px);
+}
+
 .bottomBar {
   position: absolute;
+
   bottom: 0;
   left: 0;
   width: 100%;
   height: 10%;
-  z-index: 10000;
+
+  z-index: 10;
 
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
