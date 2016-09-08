@@ -161,8 +161,8 @@ const Player = React.createClass({
     return (
       <div className="player">
         <svg xmlns="http://www.w3.org/2000/svg" height="0">
-            <filter height="100%" width="100%" y="0%" x="0%" id="svgBlur">
-                <feGaussianBlur stdDeviation="5" in="SourceGraphic"/>
+            <filter height="116%" width="116%" y="-8%" x="-8%" id="svgBlur">
+                <feGaussianBlur stdDeviation="8" in="SourceGraphic"/>
             </filter>
         </svg>
 

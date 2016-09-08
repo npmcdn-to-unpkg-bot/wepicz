@@ -28,6 +28,7 @@ const FrameBackground = React.createClass({
         style={{
           backgroundImage: 'url(' + this.props.imageSrc + ')',
           filter: 'url("#svgBlur")',
+          WebkitFilter: 'blur(8px)',
           opacity: this.props.opacity
         }}>
       </div>
@@ -125,7 +126,7 @@ const Frame = React.createClass({
                 {false && this.getBackgroundImage(this.state.motionImage.images.thumbnail.url)}
 
                 <FrameBackground
-                  imageSrc={this.state.motionImage.images.thumbnail.url}
+                  imageSrc={this.state.motionImage.images.standard_resolution.url}
                   opacity={opacity}
                   />
 
@@ -168,7 +169,7 @@ const Frame = React.createClass({
         {
           this.state.staticImage ?
           <FrameBackground
-            imageSrc={this.state.staticImage.images.thumbnail.url}
+            imageSrc={this.state.staticImage.images.standard_resolution.url}
           />
           : null
       }
