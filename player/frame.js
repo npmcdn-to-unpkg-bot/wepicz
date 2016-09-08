@@ -3,6 +3,38 @@ import { render } from 'react-dom'
 
 import {Motion, spring} from 'react-motion'
 
+let count = 0;
+
+//let lastOpacity = 0
+
+const FrameBackground = React.createClass({
+  // shouldComponentUpdate(nextProps){
+  //   let result = 0
+  //
+  //   const roundOpacity = Math.round(nextProps.opacity);
+  //
+  //   if (roundOpacity > lastOpacity){
+  //     lastOpacity = roundOpacity;
+  //     result = true;
+  //   }
+  //
+  //   return result;
+  // },
+
+  render (){
+    return (
+      <div
+        className="playerBackground"
+        style={{
+          backgroundImage: 'url(' + this.props.imageSrc + ')',
+          filter: 'url("#svgBlur")',
+          WebkitFilter: 'blur(8px)',
+          opacity: this.props.opacity
+        }}>
+      </div>
+    )
+  }
+});
 
 const Frame = React.createClass({
 
@@ -10,77 +42,72 @@ const Frame = React.createClass({
 
     return {
       motion: false,
-      image: '',
-      motionImage: ''
+      motionImage: '',
+      staticImage: '',
     }
 
   },
 
-  updateImage() {
+  updateMotionImage() {
 
-    console.log('updateImage');
+    const motionImage = this.props.requestImage();
 
-    const image = this.state.motionImage;
+    this.setState({
+      motion: true,
+      motionImage: motionImage
+    });
 
-    this.props.updateCurrentImage(image);
+    if (this.props.updateCurrentImage){
+      this.props.updateCurrentImage(motionImage);
+    }
+  },
+
+  onMotionRest() {
 
     this.setState({
       motion: false,
-      image: image,
-      motionImage: this.props.requestImage()
+      staticImage: this.state.motionImage
     })
+
+    var rand = Math.round(Math.random() * 7000) + 3000;
+    setTimeout(() => {
+
+      this.updateMotionImage();
+
+    }, rand);
+
+    count++;
+
   },
 
   componentDidMount(){
     const self = this;
 
-    const image = this.props.requestImage();
-
-    this.props.updateCurrentImage(image);
-
-    this.setState({
-      image: image,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        motionImage: this.props.requestImage()
-      });
-    }, 100);
-
-    (function loop() {
-      var rand = Math.round(Math.random() * 7000) + 3000;
-      setTimeout(() => {
-
-        self.setState({
-          motion: true
-        })
-
-        loop();
-      }, rand);
-    }());
-  },
-
-  onMotionRest() {
-    this.updateImage();
+    this.updateMotionImage();
   },
 
   getInitialStyle() {
     return {
-      height: 50,
-      width: 50,
-      angle: -10,
       opacity: 0
     }
   },
 
   getFinalStyle() {
     return {
-      height: spring(100, {stiffness: 20, damping: 14}),
-      width: spring(100, {stiffness: 20, damping: 14}),
-      angle: spring(0, {stiffness: 20, damping: 14}),
-      opacity: spring(1, {stiffness: 20, damping: 14})
+      opacity: spring(1, {stiffness: 50, damping: 50})
     }
+  },
+
+  getFrontImage(imageSrc, opacity = 1){
+    return (
+      <img
+       src={imageSrc}
+       className="playerImage"
+       style={{
+         opacity
+       }}
+      />
+    )
   },
 
   getMotion(){
@@ -92,35 +119,26 @@ const Frame = React.createClass({
 
       result = (
         <Motion defaultStyle={defaultStyle} style={style} onRest={this.onMotionRest} key="cuadrado">
-            {({width, height, angle, opacity}) =>
+            {({opacity}) =>
               <div
-                onClick={this.onClickHandler}
-                style={{
-                  marginRight: 'auto',
-                  marginLeft: 'auto',
-                  position: 'absolute',
-                  top: '0%',
-                  //width: width + '%',
-                  //height: height + '%',
-                  width: '100%',
-                  height: '100%',
-                  //transform: 'translateY(-50%) rotate(' + angle + 'deg)',
-                  opacity: opacity,
-                  zIndex: 10000
-                }}
+                className="playerMotion"
               >
-                <img
-                 src={this.state.motionImage.images.standard_resolution.url}
-                 style={{
-                   display: 'block',
-                   height: '100%',
-                   marginLeft: 'auto',
-                   marginRight: 'auto',
-                   position: 'relative',
-                   top: '50%',
-                   transform: 'translateY(-50%)'
-                 }}
-                />
+                {false && this.getBackgroundImage(this.state.motionImage.images.thumbnail.url)}
+
+                <FrameBackground
+                  imageSrc={this.state.motionImage.images.standard_resolution.url}
+                  opacity={opacity}
+                  />
+
+                {this.getFrontImage(this.state.motionImage.images.standard_resolution.url, opacity)}
+
+                <span style={{
+                  color: 'white',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0
+                }}>
+                </span>
               </div>
             }
         </Motion>
@@ -133,11 +151,12 @@ const Frame = React.createClass({
     )
   },
 
-  renderImage() {
+  render() {
+
     return (
       <div
         ref="container"
-        className="playerImage"
+        className="playerFrame"
         style={{
           top: this.props.frameMeasures.top + "%",
           left: this.props.frameMeasures.left + "%",
@@ -145,42 +164,19 @@ const Frame = React.createClass({
           height: this.props.frameMeasures.height + "%"
         }}>
 
-        <div
-          className="playerBackground"
-          style={{
-            display: 'block',
-            backgroundImage: 'url(' + this.state.image.images.standard_resolution.url + ')',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -100
-          }}>
-
-        </div>
-
         { this.getMotion() }
 
-        <img
-         src={this.state.image.images.standard_resolution.url}
-         style={{
-           display: 'block',
-           height: '100%',
-           marginLeft: 'auto',
-           marginRight: 'auto',
-           position: 'relative',
-           top: '50%',
-           transform: 'translateY(-50%)'
-         }}
-        />
+        {
+          this.state.staticImage ?
+          <FrameBackground
+            imageSrc={this.state.staticImage.images.standard_resolution.url}
+          />
+          : null
+      }
+
+        {this.state.staticImage ? this.getFrontImage(this.state.staticImage.images.standard_resolution.url) : null}
 
       </div>
-    )
-  },
-
-  render() {
-    return (
-      this.state.image ? this.renderImage() : null
     )
   }
 });
