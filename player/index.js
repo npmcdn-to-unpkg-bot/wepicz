@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import axios from 'axios'
 
+import PelaTheme from './theme/pela';
 import FullTheme from './theme/full';
 import GridTheme from './theme/grid';
 
@@ -143,6 +144,12 @@ const Player = React.createClass({
     if (getParameterByName('theme') == 1){
       theme = (
         <GridTheme
+          requestImage={this.requestImage}
+          playerSize={this.state.size} />
+      )
+    } else if (getParameterByName('theme') == 2){
+      theme = (
+        <PelaTheme
           requestImage={this.requestImage}
           playerSize={this.state.size} />
       )
