@@ -160,15 +160,15 @@ const Player = React.createClass({
   render() {
     return (
       <div className="player">
-        <svg xmlns="http://www.w3.org/2000/svg">
-          <filter id="blur-effect-1">
-            <feGaussianBlur stdDeviation="5" />
-          </filter>
+        <svg xmlns="http://www.w3.org/2000/svg" height="0">
+            <filter id="svgBlur">
+                <feGaussianBlur stdDeviation="8"/>
+            </filter>
         </svg>
 
         {
           this.state.imgs && this.state.imgs.length ?
-          this.getTheme() : <div>Loading...</div>
+          this.getTheme() : <div style={{color: 'white'}} >Loading...</div>
         }
       </div>
     )
@@ -227,7 +227,7 @@ const Demo = React.createClass({
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
             height="100%"
-            position="absolute" >
+            position >
 
             <filter id="blur-effect-1">
               <feGaussianBlur stdDeviation="10" />
