@@ -160,10 +160,10 @@ const Player = React.createClass({
   render() {
     return (
       <div className="player">
-        <svg xmlns="http://www.w3.org/2000/svg" height="0">
-            <filter height="116%" width="116%" y="-8%" x="-8%" id="svgBlur">
-                <feGaussianBlur stdDeviation="8" in="SourceGraphic"/>
-            </filter>
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <filter id="blur-effect-1">
+            <feGaussianBlur stdDeviation="5" />
+          </filter>
         </svg>
 
         {
@@ -209,41 +209,42 @@ const Demo = React.createClass({
     const style = this.getFinalStyle();
 
     return (
+      <Motion defaultStyle={defaultStyle} style={style} onRest={()=>{console.log('rest');}} key="cuadrado">
+      {
+        ({opacity}) =>
 
-      <div>
+      	<div
+      		style={{
+            position: 'absolute',
+      			width: 100 + '%',
+      			height: 100 + '%',
+            opacity: opacity
+      		}}
+        >
 
+          <svg
+            id="svg-image-blur2"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            height="100%"
+            position="absolute" >
 
+            <filter id="blur-effect-1">
+              <feGaussianBlur stdDeviation="10" />
+            </filter>
 
-        <Motion defaultStyle={defaultStyle} style={style} onRest={()=>{console.log('rest');}} key="cuadrado">
-  					{({width, height, angle, opacity}) =>
-            <div>
-  						<div
-  							style={{
-                  marginRight: 'auto',
-                  marginLeft: 'auto',
-                  position: 'absolute',
-                  //top: '50%',
-  								width: 100 + '%',
-  								height: 100 + '%',
-                  //backgroundColor: 'red',
-                  //transform: 'translateY(-50%) rotate(' + angle + 'deg)',
-                  //transform: 'translateY(-50%) rotateY(' + angle + 'deg)',
-                  opacity: opacity
-  							}}
-              >
-                <div id="page-container" style={{
-                  filter: 'url("#svgBlur")'
-                }}>
-                  {opacity}
-                </div>
-              </div>
+            <image x="0%" y="0%" width="100%" height="100%" id="img2"
+            filter="url(#blur-effect-1)"
 
-              </div>
+              xlinkHref="http://miriadna.com/desctopwalls/images/max/Isla-de-Janitzio-(Mexico).jpg" >
+            </image>
+          </svg>
 
-
-  					}
-    		</Motion>
         </div>
+
+
+      }
+      </Motion>
     );
   },
 });
