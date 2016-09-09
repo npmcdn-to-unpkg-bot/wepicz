@@ -58,10 +58,10 @@ const Frame = React.createClass({
         ref="container"
         className="playerFrame"
         style={{
-          top: this.props.frameMeasures.top + "%",
-          left: this.props.frameMeasures.left + "%",
-          width: this.props.frameMeasures.width + "%",
-          height: this.props.frameMeasures.height + "%"
+          top: this.props.frameMeasures.top,
+          left: this.props.frameMeasures.left,
+          width: this.props.frameMeasures.width,
+          height: this.props.frameMeasures.height
         }}>
 
         <Motion
@@ -73,41 +73,47 @@ const Frame = React.createClass({
               <div
                 className="playerMotion"
               >
-                <svg  id="svg-image-blur-0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-                  style={{
-                    position: 'absolute',
-                    opacity
-                  }}>
+                {
+                  opacity > 0.02 ?
+                  <svg  id="svg-image-blur-0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
+                    style={{
+                      position: 'absolute',
+                      opacity
+                    }}>
 
-                  <image x="-8%" y="-8%" width="116%" height="116%" id="img-0-2"
-                    filter="url(#svgBlur)"
-                    xlinkHref={this.state.staticImage.images.standard_resolution.url}
-                    preserveAspectRatio="none" >
-                  </image>
+                    <image x="-8%" y="-8%" width="116%" height="116%" id="img-0-2"
+                      filter="url(#svgBlur)"
+                      xlinkHref={this.state.staticImage.images.standard_resolution.url}
+                      preserveAspectRatio="none" >
+                    </image>
 
-                  <image x="0%" y="0%" width="100%" height="100%" id="img-0-1"
-                    xlinkHref={this.state.staticImage.images.standard_resolution.url}>
-                  </image>
+                    <image x="0%" y="0%" width="100%" height="100%" id="img-0-1"
+                      xlinkHref={this.state.staticImage.images.standard_resolution.url}>
+                    </image>
 
-                </svg>
+                  </svg> : null
+                }
 
-                <svg  id="svg-image-blur2" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-                  style={{
-                    position: 'absolute',
-                    opacity: 1 - opacity
-                  }}>
+                {
+                  1 - opacity > 0.02 ?
+                  <svg  id="svg-image-blur2" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
+                    style={{
+                      position: 'absolute',
+                      opacity: 1 - opacity
+                    }}>
 
-                  <image x="-8%" y="-8%" width="116%" height="116%" id="img-1-2"
-                    filter="url(#svgBlur)"
-                    xlinkHref={this.state.motionImage.images.standard_resolution.url}
-                    preserveAspectRatio="none" >
-                  </image>
+                    <image x="-8%" y="-8%" width="116%" height="116%" id="img-1-2"
+                      filter="url(#svgBlur)"
+                      xlinkHref={this.state.motionImage.images.standard_resolution.url}
+                      preserveAspectRatio="none" >
+                    </image>
 
-                  <image x="0%" y="0%" width="100%" height="100%" id="img-1-1"
-                    xlinkHref={this.state.motionImage.images.standard_resolution.url}>
-                  </image>
+                    <image x="0%" y="0%" width="100%" height="100%" id="img-1-1"
+                      xlinkHref={this.state.motionImage.images.standard_resolution.url}>
+                    </image>
 
-                </svg>
+                  </svg> : null
+                }
 
               </div>
             }

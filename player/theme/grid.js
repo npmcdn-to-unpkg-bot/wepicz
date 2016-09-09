@@ -16,10 +16,10 @@ const ThemeFull = React.createClass({
       for (var j = 0; j < 5; j++) {
 
         themeConfig.frames.push({
-          top: i * 25,
-          left: j * 20,
-          width: 20,
-          height: 25,
+          top: i * 25 + '%',
+          left: j * 20 + '%',
+          width: 20 + '%',
+          height: 25 + '%',
         })
 
       }
