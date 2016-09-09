@@ -5,33 +5,20 @@ import {Motion, spring} from 'react-motion'
 
 let count = 0;
 
-//let lastOpacity = 0
-
 const FrameBackground = React.createClass({
-  // shouldComponentUpdate(nextProps){
-  //   let result = 0
-  //
-  //   const roundOpacity = Math.round(nextProps.opacity);
-  //
-  //   if (roundOpacity > lastOpacity){
-  //     lastOpacity = roundOpacity;
-  //     result = true;
-  //   }
-  //
-  //   return result;
-  // },
-
   render (){
     return (
-      <div
-        className="playerBackground"
+      <svg  id="svg-image-blur2" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
         style={{
-          backgroundImage: 'url(' + this.props.imageSrc + ')',
-          filter: 'url("#svgBlur")',
-          WebkitFilter: 'blur(8px)',
-          opacity: this.props.opacity
+          position: 'absolute'
         }}>
-      </div>
+
+        <image x="0%" y="0%" width="100%" height="100%" id="img2"
+          filter="url(#blur-effect-1)"
+          xlinkHref={this.props.imageSrc}
+          preserveAspectRatio="none" >
+        </image>
+      </svg>
     )
   }
 });
@@ -98,14 +85,11 @@ const Frame = React.createClass({
     }
   },
 
-  getFrontImage(imageSrc, opacity = 1){
+  getFrontImage(imageSrc){
     return (
       <img
        src={imageSrc}
        className="playerImage"
-       style={{
-         opacity
-       }}
       />
     )
   },
@@ -122,15 +106,16 @@ const Frame = React.createClass({
             {({opacity}) =>
               <div
                 className="playerMotion"
+                style={{
+                  opacity
+                }}
               >
-                {false && this.getBackgroundImage(this.state.motionImage.images.thumbnail.url)}
 
                 <FrameBackground
-                  imageSrc={this.state.motionImage.images.standard_resolution.url}
-                  opacity={opacity}
-                  />
+                  imageSrc={this.state.motionImage.images.thumbnail.url}
+                />
 
-                {this.getFrontImage(this.state.motionImage.images.standard_resolution.url, opacity)}
+                {this.getFrontImage(this.state.motionImage.images.standard_resolution.url)}
 
                 <span style={{
                   color: 'white',
@@ -169,10 +154,10 @@ const Frame = React.createClass({
         {
           this.state.staticImage ?
           <FrameBackground
-            imageSrc={this.state.staticImage.images.standard_resolution.url}
+            imageSrc={this.state.staticImage.images.thumbnail.url}
           />
           : null
-      }
+        }
 
         {this.state.staticImage ? this.getFrontImage(this.state.staticImage.images.standard_resolution.url) : null}
 
