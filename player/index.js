@@ -146,10 +146,14 @@ const Player = React.createClass({
 
   },
 
+
+
   requestImage(verticalness) {
 
+    const minUsageCount = _.minBy(this.state.imgs, 'usageCount').usageCount;
+
     const sorted = _.sortBy(this.state.imgs, (img) => {
-      return 50 * img.usageCount + Math.abs(img.verticalness - verticalness)
+      return 50 * (img.usageCount - minUsageCount) + Math.abs(img.verticalness - verticalness)
     });
 
     const image = sorted[0];

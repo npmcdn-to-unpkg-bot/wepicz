@@ -8,23 +8,23 @@ const themeConfig = {
   frames: [{
     top: '0',
     left: '0',
-    width: '66vh',
+    width: '75vh',
     height: '100vh',
   }, {
     top: '0',
-    left: '66vh',
-    width: 'calc(100vw - 66vh)',
-    height: 'calc((100vw - 66vh) * 4 / 6)',
+    left: '75vh',
+    width: 'calc(100vw - 75vh)',
+    height: 'calc((100vw - 75vh) * 3 / 4)',
   }, {
-    top: 'calc((100vw - 66vh) * 4 / 6)',
-    left: '66vh',
-    width: 'calc((100vw - 66vh)/2)',
-    height: 'calc(100vh - ((100vw - 66vh) * 4 / 6))',
+    top: 'calc((100vw - 75vh) * 3 / 4)',
+    left: '75vh',
+    width: 'calc((100vw - 75vh)/2)',
+    height: 'calc(100vh - ((100vw - 75vh) * 3 / 4))',
   }, {
-    top: 'calc((100vw - 66vh) * 4 / 6)',
-    left: 'calc(66vh + ((100vw - 66vh)/2))',
-    width: 'calc((100vw - 66vh)/2)',
-    height: 'calc(100vh - ((100vw - 66vh) * 4 / 6))',
+    top: 'calc((100vw - 75vh) * 3 / 4)',
+    left: 'calc(75vh + ((100vw - 75vh)/2))',
+    width: 'calc((100vw - 75vh)/2)',
+    height: 'calc(100vh - ((100vw - 75vh) * 3 / 4))',
   }]
 }
 
