@@ -9,29 +9,31 @@ const Frame = React.createClass({
   getInitialState() {
 
     return {
-      motion: 1,
-      staticImage: this.props.requestImage(),
-      motionImage: this.props.requestImage()
+      motion: 0,
+      staticImage: null,
+      motionImage: null
     }
 
   },
 
   componentDidMount() {
-    if(this.props.updateCurrentImage) {
-      this.props.updateCurrentImage(this.state.motion === 1 ? this.state.staticImage :  this.state.motionImage)
-    }
+    this.updateMotionImage();
   },
 
   updateMotionImage() {
+    const { width, height } = this.refs.container.getBoundingClientRect()
+
+    const verticalness = (100 * height / width) - 100;
 
     const motion = (this.state.motion + 1) % 2;
-    const staticImage = this.state.motion === 1 ? this.state.staticImage : this.props.requestImage();
-    const motionImage = this.state.motion === 0 ? this.state.motionImage : this.props.requestImage();
+    const staticImage = this.state.motion === 1 ? this.state.staticImage : this.props.requestImage(verticalness);
+    const motionImage = this.state.motion === 0 ? this.state.motionImage : this.props.requestImage(verticalness);
 
     this.setState({
       motion: motion,
       staticImage: staticImage,
-      motionImage: motionImage
+      motionImage: motionImage,
+      verticalness: verticalness
     });
 
     if(this.props.updateCurrentImage) {
@@ -67,14 +69,15 @@ const Frame = React.createClass({
         <Motion
             key="fadeFrame"
             defaultStyle={{ opacity: 0 }}
-            style={{ opacity: spring(this.state.motion === 1 ? 1 : 0, {stiffness: 50, damping: 50}) }}
+            //, {stiffness: 50, damping: 50}
+            style={{ opacity: spring(this.state.motion === 1 ? 1 : 0) }}
             onRest={this.onMotionRest} >
             {({opacity}) =>
               <div
                 className="playerMotion"
               >
                 {
-                  opacity > 0.02 ?
+                  this.state.staticImage && opacity > 0.02 ?
                   <svg  id="svg-image-blur-0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                     style={{
                       position: 'absolute',
@@ -95,7 +98,7 @@ const Frame = React.createClass({
                 }
 
                 {
-                  1 - opacity > 0.02 ?
+                  this.state.motionImage && 1 - opacity > 0.02 ?
                   <svg  id="svg-image-blur2" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                     style={{
                       position: 'absolute',
