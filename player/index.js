@@ -6,6 +6,8 @@ import PelaTheme from './theme/pela';
 import FullTheme from './theme/full';
 import GridTheme from './theme/grid';
 
+import _ from 'lodash';
+
 import {Motion, spring} from 'react-motion'
 
 let layoutIndex = 0;
@@ -61,6 +63,12 @@ const Player = React.createClass({
       img.src= image.images.standard_resolution.url;
 
       function loaded() {
+
+        const {height, width} = image.images.standard_resolution;
+
+        image.usageCount = 0;
+        image.verticalness = (100 * height / width) - 100;
+
         resolve(image);
       }
 
@@ -84,7 +92,8 @@ const Player = React.createClass({
 
   getInitialState() {
     return {
-      imgs: []
+      imgs: [],
+      loading: true
     }
   },
 
@@ -94,6 +103,13 @@ const Player = React.createClass({
 
     this.getData()
     .then((data) => {
+
+      setInterval(() => {
+        this.setState({
+          loading: false
+        });
+      }, 3000);
+
       data.forEach((imgSrc) => {
         this.preloadImage(imgSrc)
         .then((okSrc) => {
@@ -130,10 +146,15 @@ const Player = React.createClass({
 
   },
 
-  requestImage() {
-    const image = this.state.imgs[imageIndex % this.state.imgs.length];
+  requestImage(verticalness) {
 
-    imageIndex++;
+    const sorted = _.sortBy(this.state.imgs, (img) => {
+      return 50 * img.usageCount + Math.abs(img.verticalness - verticalness)
+    });
+
+    const image = sorted[0];
+
+    image.usageCount++;
 
     return image;
   },
@@ -174,7 +195,7 @@ const Player = React.createClass({
         </svg>
 
         {
-          this.state.imgs && this.state.imgs.length ?
+          !this.state.loading && this.state.imgs &&  this.state.imgs.length ?
           this.getTheme() : <div style={{color: 'white'}} >Loading...</div>
         }
       </div>
