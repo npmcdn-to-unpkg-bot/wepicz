@@ -33,7 +33,9 @@ const Frame = React.createClass({
       motion: motion,
       staticImage: staticImage,
       motionImage: motionImage,
-      verticalness: verticalness
+      verticalness: verticalness,
+      width: width,
+      height: height
     });
 
     if(this.props.updateCurrentImage) {
@@ -51,6 +53,79 @@ const Frame = React.createClass({
 
     }, rand);
 
+  },
+
+  renderImage(id, image, opacity) {
+
+    const imageWidth = image.images.standard_resolution.width;
+    const imageHeight = image.images.standard_resolution.height;
+
+    const proportionDifference = Math.abs(this.state.verticalness - image.verticalness);
+
+    const showBackground = proportionDifference > 15;
+
+    let positionX = 0;
+    let positionY = 0;
+    let width = 100;
+    let height = 100;
+
+    if (!showBackground){
+
+      if (this.state.verticalness > image.verticalness){
+
+        const imageHeightAdjusted = this.state.width * imageHeight / imageWidth;
+        const imageHeightAdjustedPercent = this.state.height * 100 / imageHeightAdjusted - 100;
+
+        positionX = (-imageHeightAdjustedPercent/2);
+        positionY = 0;
+
+        width = 100 + imageHeightAdjustedPercent;
+        height = 100;
+
+      } else {
+
+        const imageWidthAdjusted = this.state.height * imageWidth / imageHeight;
+        const imageWidthAdjustedPercent = this.state.width * 100 / imageWidthAdjusted - 100;
+
+        positionX = 0;
+        positionY = 0;
+
+        width = 100;
+        height = 100 + imageWidthAdjustedPercent;
+      }
+    }
+
+    positionX = (positionX) + '%';
+    positionY = (positionY) + '%';
+    width = (width) + '%';
+    height = (height) + '%';
+
+    return (
+
+      <svg  id={id} xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
+        style={{
+          position: 'absolute',
+          opacity
+        }}
+      >
+
+        {
+          showBackground ?
+          <image x="-8%" y="-8%" width="116%" height="116%" id="img-back"
+            filter="url(#svgBlur)"
+            xlinkHref={image.images.standard_resolution.url}
+            preserveAspectRatio="none" >
+          </image> :
+          null
+        }
+
+        <image x={positionX} y={positionY} width={width} height={height} id="img-front"
+          xlinkHref={image.images.standard_resolution.url}>
+        </image>
+
+      </svg>
+
+    )
   },
 
   render() {
@@ -77,45 +152,15 @@ const Frame = React.createClass({
                 className="playerMotion"
               >
                 {
-                  this.state.staticImage && opacity > 0.02 ?
-                  <svg  id="svg-image-blur-0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-                    style={{
-                      position: 'absolute',
-                      opacity
-                    }}>
-
-                    <image x="-8%" y="-8%" width="116%" height="116%" id="img-0-2"
-                      filter="url(#svgBlur)"
-                      xlinkHref={this.state.staticImage.images.standard_resolution.url}
-                      preserveAspectRatio="none" >
-                    </image>
-
-                    <image x="0%" y="0%" width="100%" height="100%" id="img-0-1"
-                      xlinkHref={this.state.staticImage.images.standard_resolution.url}>
-                    </image>
-
-                  </svg> : null
+                  this.state.staticImage && opacity > 0.02
+                  ? this.renderImage("svg-image-blur-0", this.state.staticImage, opacity)
+                  : null
                 }
 
                 {
-                  this.state.motionImage && 1 - opacity > 0.02 ?
-                  <svg  id="svg-image-blur2" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-                    style={{
-                      position: 'absolute',
-                      opacity: 1 - opacity
-                    }}>
-
-                    <image x="-8%" y="-8%" width="116%" height="116%" id="img-1-2"
-                      filter="url(#svgBlur)"
-                      xlinkHref={this.state.motionImage.images.standard_resolution.url}
-                      preserveAspectRatio="none" >
-                    </image>
-
-                    <image x="0%" y="0%" width="100%" height="100%" id="img-1-1"
-                      xlinkHref={this.state.motionImage.images.standard_resolution.url}>
-                    </image>
-
-                  </svg> : null
+                  this.state.motionImage && 1 - opacity > 0.02
+                  ? this.renderImage("svg-image-blur-1", this.state.motionImage, 1 - opacity)
+                  : null
                 }
 
               </div>
