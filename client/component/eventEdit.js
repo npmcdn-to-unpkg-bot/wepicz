@@ -9,7 +9,10 @@ const EventEdit = React.createClass({
 
   getInitialState(){
     return {
-      event: {}
+      event: {
+        name: '',
+        hashtags: ''
+      }
     };
   },
 
