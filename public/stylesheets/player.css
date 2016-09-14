@@ -12,6 +12,11 @@ body {
   background-color: black;
 }
 
+@font-face{
+	font-family:"Abadi MT Condensed Light";
+	src:url("../fonts/ABALC.ttf");
+}
+
 .playerFrame {
   position: absolute;
 }
@@ -61,7 +66,7 @@ body {
 
   z-index: 10;
 
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: "Abadi MT Condensed Light";
 }
 
 .bottomBarBackground {
@@ -108,9 +113,9 @@ body {
 
 .bottomBarUserName {
   position: absolute;
-  bottom: 1vh;
+  bottom: 0.5vh;
   right: 15vh;
-  font-size: 2.5vh;
+  font-size: 3vh;
 
   color: white;
 }
@@ -120,4 +125,8 @@ body {
   height: 3vh;
   bottom: 1vh;
   right: 11vh;
+}
+
+#fullScreenSwitch:hover {
+  visibility: visible;
 }
