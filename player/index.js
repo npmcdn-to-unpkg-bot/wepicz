@@ -6,6 +6,8 @@ import PelaTheme from './theme/pela';
 import FullTheme from './theme/full';
 import GridTheme from './theme/grid';
 
+import FullScreenSwitch from './fullScreenSwitch'
+
 import _ from 'lodash';
 
 import {Motion, spring} from 'react-motion'
@@ -192,6 +194,7 @@ const Player = React.createClass({
   render() {
     return (
       <div className="player">
+        <FullScreenSwitch/>
         <svg xmlns="http://www.w3.org/2000/svg" height="0">
             <filter id="svgBlur">
                 <feGaussianBlur stdDeviation="8"/>
